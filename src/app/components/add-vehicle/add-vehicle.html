@@ -1,11 +1,49 @@
-<div class="flex justify-center">
-  <p-autocomplete
-    [(ngModel)]="selectedOwner"
-    [suggestions]="filteredOwners"
-    (completeMethod)="search($event)"
-    optionLabel="name"
-    placeholder="Type an owner..."
-    inputStyleClass="w-full md:w-56"
-    scrollHeight="14rem"
-  />
+<div class="flex flex-row justify-between items-center mx-5 my-2">
+  <div class="font-bold text-surface-900 dark:text-surface-0 text-2xl">Új jármű felvétele</div>
+  <div class="flex flex-row gap-2">
+    <a raised variant="text" [routerLink]="'/'" pButton label="Új jármű" icon="pi pi-plus">
+      <svg data-p-icon="backward"></svg> Vissza</a
+    >
+  </div>
+</div>
+<hr class="mx-5 my-10" />
+<div class="flex flex-col gap-15 items-center justify-center mt-10">
+  <p-float-label>
+    <p-autocomplete
+      [(ngModel)]="newVehicle().owner"
+      [suggestions]="filteredOwners"
+      (completeMethod)="search($event)"
+      optionLabel="name"
+      inputStyleClass="w-full md:w-66"
+      scrollHeight="14rem"
+    />
+    <label for="owner">Tulajdonos</label>
+  </p-float-label>
+  <p-float-label>
+    <input type="text" pInputText class="w-full md:w-66" [(ngModel)]="newVehicle().name" />
+    <label for="owner">Jármű megnevezése</label>
+  </p-float-label>
+  <p-float-label>
+    <input type="text" pInputText class="w-full md:w-66" [(ngModel)]="newVehicle().location" />
+    <label for="owner">Honnan érkezett</label>
+  </p-float-label>
+  <p-float-label>
+    <input type="number" pInputText class="w-full md:w-66" [(ngModel)]="newVehicle().buildYear" />
+    <label for="owner">Gyártási év</label>
+  </p-float-label>
+  <div class="flex flex-row gap-7 mt-5">
+    <button raised severity="success" pButton [disabled]="!canSave()" (click)="save()">
+      Mentés
+      <svg data-p-icon="check"></svg>
+    </button>
+    @if (newVehicle().id) {
+      <button raised severity="danger" pButton [disabled]="!canSave()" (click)="delete()">
+        Törlés
+        <svg data-p-icon="trash"></svg>
+      </button>
+    }
+  </div>
+  <div class="italic text-surface-900 dark:text-surface-0 text-sm mt-5">
+    Minden mező kitöltése kötelező! A jármű felvétele után a jármű adatai módosíthatóak lesznek.
+  </div>
 </div>

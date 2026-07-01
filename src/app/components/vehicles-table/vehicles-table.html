@@ -2,7 +2,9 @@
   <ng-template #header>
     <div class="flex flex-row justify-between items-center">
       <div class="font-medium text-surface-900 dark:text-surface-0 text-lg">
-        Regisztrált járművek
+        Regisztrált járművek összesen:
+        <span class="font-bold text-amber-500">{{ vehicles().length }}</span>
+        db
       </div>
       <div class="flex flex-row gap-2">
         <a raised [routerLink]="'/add'" pButton label="Új jármű" icon="pi pi-plus">Új felvétele</a>
@@ -31,6 +33,13 @@
                 src="/tractor.png"
                 [alt]="item.name"
               />
+              <p-tag
+                [value]="item.id"
+                class="absolute dark:bg-surface-900!"
+                [style.left.px]="4"
+                [style.top.px]="4"
+                rounded
+              />
             </div>
             <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-5">
               <div class="flex flex-row md:flex-col justify-between items-start gap-2">
@@ -54,7 +63,14 @@
                 </div>
               </div>
               <div class="flex flex-col md:items-end gap-2">
-                <button raised variant="text" severity="info" pButton>Módosítás</button>
+                <a
+                  [routerLink]="'/details/' + item.id"
+                  raised
+                  variant="text"
+                  severity="info"
+                  pButton
+                  >Módosítás</a
+                >
               </div>
             </div>
           </div>

@@ -19,14 +19,11 @@ export class VehiclesTable implements OnInit {
   vehicles = signal<IVehicle[]>([]);
 
   async ngOnInit() {
-    (await this.apiService.getVehicles()).subscribe({
-      next: (data: IVehicle[]) => {
-        console.log(data);
-        this.vehicles.set(data);
-      },
-      error: (error) => {
-        console.error('Error fetching vehicles:', error);
-      },
+    this.apiService.getVehiclesObservable().subscribe((data) => {
+      this.vehicles.set(data);
     });
+
+    // Minden belépésnél/inicializálásnál frissítünk egyet biztonság kedvéért
+    this.apiService.refreshVehicles();
   }
 }
