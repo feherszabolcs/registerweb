@@ -5,10 +5,18 @@
         Regisztrált járművek
       </div>
       <div class="flex flex-row gap-2">
-        <button pButton label="Új jármű" icon="pi pi-plus">Új felvétele</button>
+        <a raised [routerLink]="'/add'" pButton label="Új jármű" icon="pi pi-plus">Új felvétele</a>
       </div>
     </div>
   </ng-template>
+  @if (vehicles().length === 0) {
+    <div class="flex flex-col justify-center items-center gap-4 p-5">
+      <div class="font-medium text-surface-900 dark:text-surface-0 text-lg">
+        Nincs regisztrált jármű!
+      </div>
+      <a [routerLink]="'/add'" pButton label="Új jármű" icon="pi pi-plus">Új felvétele</a>
+    </div>
+  }
   <ng-template #list let-items>
     <div class="grid grid-cols-12 gap-4 grid-nogutter">
       @for (item of items; track item.id; let first = $first) {
@@ -23,13 +31,6 @@
                 src="/tractor.png"
                 [alt]="item.name"
               />
-              <!-- <p-tag
-                [value]="item.inventoryStatus"
-                [severity]="getSeverity(item)"
-                class="absolute dark:bg-surface-900!"
-                [style.left.px]="4"
-                [style.top.px]="4"
-              /> -->
             </div>
             <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-5">
               <div class="flex flex-row md:flex-col justify-between items-start gap-2">
@@ -38,22 +39,6 @@
                     {{ item.name || 'Hiányzó megnevezés!' }}
                   </div>
                 </div>
-                <!-- <div class="bg-surface-100 dark:bg-surface-700 p-1" style="border-radius: 30px">
-                  <div
-                    class="bg-surface-0 dark:bg-surface-900 flex items-center gap-2 justify-center py-0.5 px-1.5"
-                    style="
-                      border-radius: 30px;
-                      box-shadow:
-                        0px 1px 2px 0px rgba(0, 0, 0, 0.04),
-                        0px 1px 2px 0px rgba(0, 0, 0, 0.06);
-                    "
-                  >
-                    <span class="text-surface-900 dark:text-surface-0 font-medium text-xs">{{
-                      item.owner
-                    }}</span>
-                    <i class="pi pi-star-fill text-yellow-500"></i>
-                  </div>
-                </div> -->
               </div>
               <div class="flex flex-row md:items-center">
                 <div class="font-medium text-surface-900 dark:text-surface-0 mt-1">
@@ -69,7 +54,7 @@
                 </div>
               </div>
               <div class="flex flex-col md:items-end gap-2">
-                <button pButton>Módosítás</button>
+                <button raised variant="text" severity="info" pButton>Módosítás</button>
               </div>
             </div>
           </div>

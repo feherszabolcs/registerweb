@@ -5,10 +5,11 @@ import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { NgClass } from '@angular/common';
 import IVehicle from '../../interfaces/IVehicle';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-vehicles-table',
-  imports: [DataViewModule, NgClass, TagModule, ButtonModule],
+  imports: [DataViewModule, NgClass, TagModule, ButtonModule, RouterLink],
   templateUrl: './vehicles-table.html',
   styleUrl: './vehicles-table.css',
   standalone: true,

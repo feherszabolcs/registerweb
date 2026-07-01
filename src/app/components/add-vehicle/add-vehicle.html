@@ -1,1 +1,11 @@
-<p>add-vehicle works!</p>
+<div class="flex justify-center">
+  <p-autocomplete
+    [(ngModel)]="selectedOwner"
+    [suggestions]="filteredOwners"
+    (completeMethod)="search($event)"
+    optionLabel="name"
+    placeholder="Type an owner..."
+    inputStyleClass="w-full md:w-56"
+    scrollHeight="14rem"
+  />
+</div>
