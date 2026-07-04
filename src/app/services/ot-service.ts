@@ -28,6 +28,10 @@ export class OtService {
     this.http.post(this.url + '/Vehicle', data).subscribe();
   }
 
+  patchVehicle(id: string, data: IVehicle) {
+    return this.http.patch(this.url + '/Vehicle/' + id, data);
+  }
+
   async getVehicleById(id: string) {
     return this.http.get<IVehicle>(this.url + '/Vehicle/' + id);
   }

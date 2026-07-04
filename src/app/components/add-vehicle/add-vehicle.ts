@@ -82,21 +82,34 @@ export class AddVehicle implements OnInit {
   };
 
   async save() {
-    await this.apiService.postVehicle(this.newVehicle()).then(() => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Sikeres mentés',
-        detail: 'A jármű adatai sikeresen mentésre kerültek.',
+    if (this.newVehicle().id) {
+      this.apiService.patchVehicle(this.newVehicle().id!, this.newVehicle()).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Sikeres mentés',
+            detail: 'A jármű adatai sikeresen frissítésre kerültek.',
+          });
+          this.apiService.refreshVehicles();
+          this.router.navigate(['/']);
+        },
       });
-      this.newVehicle.set({
-        name: '',
-        location: '',
-        buildYear: new Date().getFullYear(),
-        owner: '',
+    } else
+      await this.apiService.postVehicle(this.newVehicle()).then(() => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sikeres mentés',
+          detail: 'A jármű adatai sikeresen mentésre kerültek.',
+        });
+        this.newVehicle.set({
+          name: '',
+          location: '',
+          buildYear: new Date().getFullYear(),
+          owner: '',
+        });
+        this.apiService.refreshVehicles();
+        this.router.navigate(['/']);
       });
-      this.apiService.refreshVehicles();
-      this.router.navigate(['/']);
-    });
   }
 
   async delete() {

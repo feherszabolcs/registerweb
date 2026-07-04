@@ -23,7 +23,6 @@ export class VehiclesTable implements OnInit {
       this.vehicles.set(data);
     });
 
-    // Minden belépésnél/inicializálásnál frissítünk egyet biztonság kedvéért
     this.apiService.refreshVehicles();
   }
 }
