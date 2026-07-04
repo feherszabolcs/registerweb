@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { VehiclesTable } from './components/vehicles-table/vehicles-table';
 import { AddVehicle } from './components/add-vehicle/add-vehicle';
-import { Details } from './components/details/details';
 
 export const routes: Routes = [
   {
