@@ -1,6 +1,12 @@
-<p-data-view #dv [value]="vehicles()">
+<p-data-view
+  #dv
+  [value]="vehicles()"
+  [pt]="{
+    header: { class: 'sticky top-0 z-50 bg-surface-0 dark:bg-surface-900 shadow-sm p-0' },
+  }"
+>
   <ng-template #header>
-    <div class="flex flex-row justify-between items-center">
+    <div class="flex flex-row justify-between items-center p-4">
       <div class="font-medium text-surface-900 dark:text-surface-0 text-lg">
         Regisztrált járművek összesen:
         <span class="font-bold text-amber-500">{{ vehicles().length }}</span>
@@ -11,6 +17,7 @@
       </div>
     </div>
   </ng-template>
+
   @if (vehicles().length === 0) {
     <div class="flex flex-col justify-center items-center gap-4 p-5">
       <div class="font-medium text-surface-900 dark:text-surface-0 text-lg">
@@ -19,6 +26,7 @@
       <a [routerLink]="'/add'" pButton label="Új jármű" icon="pi pi-plus">Új felvétele</a>
     </div>
   }
+
   <ng-template #list let-items>
     <div class="grid grid-cols-12 gap-4 grid-nogutter">
       @for (item of items; track item.id; let first = $first) {
@@ -27,9 +35,9 @@
             class="flex flex-col sm:flex-row sm:items-center p-5 gap-4"
             [ngClass]="{ 'border-t border-surface-200 dark:border-surface-700': !first }"
           >
-            <div class="relative sm:w-30 w-20">
+            <div class="relative sm:w-30 w-20 shrink-0">
               <img
-                class="block xl:block mx-auto rounded-border w-full"
+                class="hidden md:block xl:block mx-auto rounded-border w-full"
                 src="tractor.png"
                 [alt]="item.name"
               />
@@ -41,34 +49,43 @@
                 rounded
               />
             </div>
-            <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-5">
-              <div class="flex flex-row md:flex-col justify-between items-start gap-2">
-                <div>
-                  <div class="font-medium text-surface-900 dark:text-surface-0 mt-1">
-                    {{ item.name || 'Hiányzó megnevezés!' }}
-                  </div>
-                </div>
+
+            <div
+              class="grid grid-cols-1 md:grid-cols-4 items-center flex-1 gap-4 text-center md:text-left"
+            >
+              <div
+                class="font-medium text-surface-900 dark:text-surface-0 text-lg"
+                [title]="item.name"
+              >
+                {{ item.name || 'Hiányzó megnevezés!' }}
               </div>
-              <div class="flex flex-row md:items-center">
-                <div class="font-medium text-surface-900 dark:text-surface-0 mt-1">
-                  {{ item.buildYear || 'Hiányzó gyártási év!' }}
-                </div>
+
+              <div
+                class="font-medium text-surface-900 dark:text-surface-0 justify-center items-center flex flex-col"
+              >
+                <span class="md:hidden visible font-semibold">Gyártási év: </span>
+                {{ item.buildYear || 'Hiányzó gyártási év!' }}
               </div>
-              <div class="flex flex-col md:items-center">
-                <div class="font-medium text-surface-900 dark:text-surface-0 mt-1">
+
+              <div class="flex flex-col justify-center items-center">
+                <div class="font-medium text-surface-900 dark:text-surface-0">
                   {{ item.owner || 'Hiányzó tulajdonos!' }}
                 </div>
-                <div class="font-medium text-surface-900 italic dark:text-surface-0 mt-1">
+                <div
+                  class="font-medium text-surface-900 italic dark:text-surface-0 text-sm opacity-80"
+                >
                   {{ item.location || 'Hiányzó helyszín!' }}
                 </div>
               </div>
-              <div class="flex flex-col md:items-end gap-2">
+
+              <div class="flex flex-col justify-center items-center md:items-end">
                 <a
                   [routerLink]="'/details/' + item.id"
                   raised
                   variant="text"
                   severity="info"
                   pButton
+                  class="w-full md:w-auto"
                   >Módosítás</a
                 >
               </div>
