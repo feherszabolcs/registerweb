@@ -1,3 +1,15 @@
+  @if(isLoading()){
+    <div class="flex flex-col justify-center items-center gap-4 p-5">
+      <div class="font-medium text-surface-900 dark:text-surface-0 text-lg text-center">
+        <p-progressspinner [style]="{ width: '50px', height: '50px' }" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressspinner >
+          <p>Várakozás az adatok betöltésére...</p>
+          <p class="italic text-sm">Első alkalommal történő indításnál, akár több perc is lehet!</p>
+
+        </div>
+    </div>
+  }
+  @else {
+
 <p-data-view
   #dv
   [value]="vehicles()"
@@ -96,3 +108,4 @@
     </div>
   </ng-template>
 </p-data-view>
+  }

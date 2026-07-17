@@ -6,10 +6,12 @@ import { ButtonModule } from 'primeng/button';
 import { NgClass } from '@angular/common';
 import IVehicle from '../../interfaces/IVehicle';
 import { RouterLink } from '@angular/router';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { skip } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vehicles-table',
-  imports: [DataViewModule, NgClass, TagModule, ButtonModule, RouterLink],
+  imports: [DataViewModule, NgClass, TagModule, ButtonModule, RouterLink, ProgressSpinnerModule],
   templateUrl: './vehicles-table.html',
   styleUrl: './vehicles-table.css',
   standalone: true,
@@ -17,10 +19,19 @@ import { RouterLink } from '@angular/router';
 export class VehiclesTable implements OnInit {
   private apiService = inject(OtService);
   vehicles = signal<IVehicle[]>([]);
+  isLoading = signal<boolean>(true);
 
   async ngOnInit() {
-    this.apiService.getVehiclesObservable().subscribe((data) => {
-      this.vehicles.set(data);
+    this.isLoading.set(true);
+
+    this.apiService.getVehiclesObservable().pipe(skip(1)).subscribe({
+      next: (data) => {
+        this.vehicles.set(data);
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.isLoading.set(false);
+      },
     });
 
     this.apiService.refreshVehicles();
