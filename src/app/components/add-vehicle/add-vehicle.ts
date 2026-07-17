@@ -12,6 +12,7 @@ import IVehicle from '../../interfaces/IVehicle';
 import { OtService } from '../../services/ot-service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { ProgressSpinner } from "primeng/progressspinner";
 
 @Component({
   selector: 'app-add-vehicle',
@@ -26,19 +27,25 @@ import { MessageService } from 'primeng/api';
     Trash,
     InputTextModule,
     ToastModule,
-  ],
+    ProgressSpinner
+],
   templateUrl: './add-vehicle.html',
   styleUrl: './add-vehicle.css',
   providers: [],
 })
 export class AddVehicle implements OnInit {
+
+  isLoading = signal<boolean>(true);
+
   ngOnInit(): void {
+    this.isLoading.set(true);
     this.route.params.subscribe(async (params) => {
       this.newVehicle().id = params['id'];
       if (this.newVehicle().id) {
         (await this.apiService.getVehicleById(this.newVehicle().id!)).subscribe({
           next: (data: IVehicle) => {
             this.newVehicle.set(data);
+            this.isLoading.set(false);
           },
           error: (error) => {
             console.error('Error fetching vehicle by ID:', error);
